@@ -8,9 +8,19 @@ public class Product {
     private Category category;
 
     public Product(String title, double price, Category category) {
+        if(title == null || title.equals("")) {
+
+        }
         this.setTitle(title);
         this.setPrice(price);
         this.setCategory(category);
+    }
+
+    private void checkFields(String title, double price, Category category) {
+        if(title == null || title.equals("")) {
+            throw new IllegalArgumentException("Title can not be null or empty");
+        }
+
     }
 
     @Override

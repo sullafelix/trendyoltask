@@ -12,7 +12,7 @@ public class DeliveryCostCalculator {
     }
 
 
-    public double calculateFor(ShoppingCart cart) {
+    public double calculateFor(ShoppingCartImpl cart) {
         throw new RuntimeException("Not yet implemented.");
     }
 }
