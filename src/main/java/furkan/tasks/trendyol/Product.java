@@ -8,19 +8,28 @@ public class Product {
     private Category category;
 
     public Product(String title, double price, Category category) {
-        if(title == null || title.equals("")) {
-
-        }
+        checkFields(title, price, category);
         this.setTitle(title);
         this.setPrice(price);
         this.setCategory(category);
     }
 
     private void checkFields(String title, double price, Category category) {
+        StringBuilder errorMessageBuilder = new StringBuilder();
         if(title == null || title.equals("")) {
-            throw new IllegalArgumentException("Title can not be null or empty");
+            errorMessageBuilder.append("Title can not be null or empty. ");
+        }
+        if(price <= 0) {
+            errorMessageBuilder.append("Price must be greater than 0. ");
+        }
+        if(category == null) {
+            errorMessageBuilder.append("Category can not be null.");
         }
 
+        String errorMessage = errorMessageBuilder.toString();
+        if(!errorMessage.equals("")) {
+            throw new IllegalArgumentException(errorMessage);
+        }
     }
 
     @Override
