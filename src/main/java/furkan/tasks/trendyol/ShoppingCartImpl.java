@@ -21,6 +21,15 @@ public class ShoppingCartImpl implements ShoppingCart{
     }
 
     public double getCouponDiscount() {
+        if(coupon == null) {
+            return 0;
+        }
+
+        double totalAmountAfterCampaigns = getTotalAmount() - getCampaignDiscount();
+        if(totalAmountAfterCampaigns > coupon.getMinPurchase()) {
+            return coupon.getDiscount(totalAmountAfterCampaigns);
+        }
+
         return 0;
     }
 
@@ -68,7 +77,7 @@ public class ShoppingCartImpl implements ShoppingCart{
     }
 
     public void applyCoupon(Coupon coupon) {
-        if(coupon.getMinPurchase() >= getTotalAmount() - getCampaignDiscount()) {
+        if(coupon.getMinPurchase() <= getTotalAmount() - getCampaignDiscount()) {
             this.coupon = coupon;
         }
     }
