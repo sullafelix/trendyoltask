@@ -12,7 +12,7 @@ public class ShoppingCartImplTest {
         Product apple = new Product("Apple", 100.0, foodCategory);
         Product almond = new Product("Almonds", 150.0, foodCategory);
 
-        ShoppingCart cart = new ShoppingCartImpl(null);
+        ShoppingCart cart = new ShoppingCartImpl(null,null);
         cart.addItem(apple, 3);
         cart.addItem(almond, 1);
 
@@ -26,7 +26,7 @@ public class ShoppingCartImplTest {
         Product apple = new Product("Apple", 100.0, foodCategory);
         Product almond = new Product("Almonds", 150.0, foodCategory);
 
-        ShoppingCart cart = new ShoppingCartImpl(null);
+        ShoppingCart cart = new ShoppingCartImpl(null, null);
         cart.addItem(apple, 3);
         cart.addItem(almond, 1);
 
@@ -46,7 +46,7 @@ public class ShoppingCartImplTest {
         Product apple = new Product("Apple", 100.0, foodCategory);
         Product almond = new Product("Almonds", 150.0, foodCategory);
 
-        ShoppingCartImpl cart = new ShoppingCartImpl(null);
+        ShoppingCartImpl cart = new ShoppingCartImpl(null, null);
         cart.addItem(apple, 3);
         cart.addItem(almond, 1);
 
@@ -64,7 +64,7 @@ public class ShoppingCartImplTest {
         Product apple = new Product("Apple", 100.0, foodCategory);
         Product almond = new Product("Almonds", 150.0, foodCategory);
 
-        ShoppingCartImpl cart = new ShoppingCartImpl(null);
+        ShoppingCartImpl cart = new ShoppingCartImpl(null, null);
         cart.addItem(apple, 3);
         cart.addItem(almond, 1);
 
