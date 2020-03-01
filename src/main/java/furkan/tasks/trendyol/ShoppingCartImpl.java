@@ -6,14 +6,20 @@ public class ShoppingCartImpl implements ShoppingCart{
     private final Map<Category, Map<Product, Integer>> categoryItemMap = new HashMap<>();
     private List<Campaign> campaigns = new LinkedList<>();
     private ShoppingCartPrinter printer;
+    private DeliveryCostCalculator deliveryCostCalculator;
     private Coupon coupon;
 
-    public ShoppingCartImpl(ShoppingCartPrinter printer) {
+    public ShoppingCartImpl(DeliveryCostCalculator deliveryCostCalculator, ShoppingCartPrinter printer) {
+        setDeliveryCostCalculator(deliveryCostCalculator);
         setPrinter(printer);
     }
 
     public void setPrinter(ShoppingCartPrinter printer) {
         this.printer = printer;
+    }
+
+    public void setDeliveryCostCalculator(DeliveryCostCalculator deliveryCostCalculator) {
+        this.deliveryCostCalculator = deliveryCostCalculator;
     }
 
     public double getTotalAmountAfterDiscounts() {
@@ -49,7 +55,7 @@ public class ShoppingCartImpl implements ShoppingCart{
     }
 
     public double getDeliveryCost() {
-        throw new RuntimeException("Not yet implemented!");
+        return deliveryCostCalculator.calculateFor(this);
     }
 
     public void print() {

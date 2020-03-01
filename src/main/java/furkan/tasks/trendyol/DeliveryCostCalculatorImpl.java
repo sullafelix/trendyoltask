@@ -1,6 +1,6 @@
 package furkan.tasks.trendyol;
 
-public class DeliveryCostCalculatorImpl {
+public class DeliveryCostCalculatorImpl implements DeliveryCostCalculator {
     private final double costPerDelivery;
     private final double costPerProduct;
     private final double fixedCost;
