@@ -27,6 +27,10 @@ public class Category {
         return false;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

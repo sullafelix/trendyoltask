@@ -52,7 +52,7 @@ public class Campaign {
                 .filter(categoryItemEntry -> categoryItemEntry.getKey().isParentOrSelf(this.category))
                 .mapToDouble(categoryMapEntry ->
                         categoryMapEntry.getValue().entrySet().stream()
-                                .mapToDouble(entry -> entry.getKey().getPrice() * entry.getValue())
+                                .mapToDouble(productIntegerEntry -> productIntegerEntry.getKey().getPrice() * productIntegerEntry.getValue())
                                 .sum())
                 .sum();
     }

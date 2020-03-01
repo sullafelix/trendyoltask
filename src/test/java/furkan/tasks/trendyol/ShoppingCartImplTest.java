@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class ShoppingCartImplTest {
+    private static final double DOUBLE_DELTA = 0.01;
 
     @Test
     public void getTotalAmountTest() {
@@ -16,7 +17,7 @@ public class ShoppingCartImplTest {
         cart.addItem(apple, 3);
         cart.addItem(almond, 1);
 
-        Assertions.assertEquals(450.0, cart.getTotalAmountAfterDiscounts());
+        Assertions.assertEquals(450.0, cart.getTotalAmountAfterDiscounts(), DOUBLE_DELTA);
     }
 
     @Test
@@ -35,7 +36,7 @@ public class ShoppingCartImplTest {
         Campaign fiveLiraCampaign = new Campaign(foodCategory, 5.0, 5, DiscountType.AMOUNT);
         cart.applyDiscounts(moreThanThreeCampaign, moreThanFiveCampaign, fiveLiraCampaign);
 
-        Assertions.assertEquals(360.0, cart.getTotalAmountAfterDiscounts());
+        Assertions.assertEquals(360.0, cart.getTotalAmountAfterDiscounts(), DOUBLE_DELTA);
     }
 
     @Test
@@ -53,7 +54,7 @@ public class ShoppingCartImplTest {
         Coupon coupon = new Coupon(100, 10, DiscountType.RATE);
         cart.applyCoupon(coupon);
 
-        Assertions.assertEquals(405.0, cart.getTotalAmountAfterDiscounts());
+        Assertions.assertEquals(405.0, cart.getTotalAmountAfterDiscounts(), DOUBLE_DELTA);
     }
 
     @Test
@@ -76,7 +77,7 @@ public class ShoppingCartImplTest {
         Coupon coupon = new Coupon(100, 10, DiscountType.RATE);
         cart.applyCoupon(coupon);
 
-        Assertions.assertEquals(324.0, cart.getTotalAmountAfterDiscounts());
+        Assertions.assertEquals(324.0, cart.getTotalAmountAfterDiscounts(), DOUBLE_DELTA);
     }
 
     @Test
@@ -111,6 +112,6 @@ public class ShoppingCartImplTest {
         cart.addItem(toothPaste, 1);
         cart.addItem(lemonade, 4);
 
-        Assertions.assertEquals(37.99, TestUtils.convertToTwoDecimalPlaces(cart.getDeliveryCost()));
+        Assertions.assertEquals(37.99, cart.getDeliveryCost(), DOUBLE_DELTA);
     }
 }

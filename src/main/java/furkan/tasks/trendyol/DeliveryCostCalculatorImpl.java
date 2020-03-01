@@ -13,6 +13,8 @@ public class DeliveryCostCalculatorImpl implements DeliveryCostCalculator {
 
 
     public double calculateFor(ShoppingCartImpl cart) {
-        throw new RuntimeException("Not yet implemented.");
+        return costPerDelivery * cart.getNumberOfCategories() +
+                costPerProduct * cart.getNumberOfDistinctProducts() +
+                  fixedCost;
     }
 }

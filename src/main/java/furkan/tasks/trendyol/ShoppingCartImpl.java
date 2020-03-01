@@ -31,12 +31,7 @@ public class ShoppingCartImpl implements ShoppingCart{
             return 0;
         }
 
-        double totalAmountAfterCampaigns = getTotalAmount() - getCampaignDiscount();
-        if(totalAmountAfterCampaigns > coupon.getMinPurchase()) {
-            return coupon.getDiscount(totalAmountAfterCampaigns);
-        }
-
-        return 0;
+        return coupon.getDiscount(getTotalAmount() - getCampaignDiscount());
     }
 
     private double getTotalAmount() {
@@ -86,5 +81,35 @@ public class ShoppingCartImpl implements ShoppingCart{
         if(coupon.getMinPurchase() <= getTotalAmount() - getCampaignDiscount()) {
             this.coupon = coupon;
         }
+    }
+
+    @Override
+    public int getNumberOfCategories() {
+        return categoryItemMap.keySet().size();
+    }
+
+    @Override
+    public int getNumberOfDistinctProducts() {
+        return categoryItemMap.values().stream()
+                .mapToInt(productIntegerMap -> productIntegerMap.keySet().size())
+                .sum();
+    }
+
+    @Override
+    public Optional<Map<Product, Integer>> getProductQuantityForCategory(Category category) {
+        Map<Product, Integer> productQuantityMap = this.categoryItemMap.entrySet().stream()
+                .filter(categoryItemEntry -> categoryItemEntry.getKey().equals(category))
+                .map(Map.Entry::getValue)
+                .findFirst().orElse(null);
+        if(productQuantityMap == null) {
+            return Optional.empty();
+        }
+
+        return Optional.of(Collections.unmodifiableMap(productQuantityMap));
+    }
+
+    @Override
+    public Set<Category> getCategories() {
+        return Collections.unmodifiableSet(this.categoryItemMap.keySet());
     }
 }
