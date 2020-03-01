@@ -10,7 +10,12 @@ public class Category {
         this.title = title;
     }
 
-    public boolean isParent(Category other) {
+    public Category(String title, Category parent) {
+        this(title);
+        this.parent = parent;
+    }
+
+    public boolean isParentOrSelf(Category other) {
         Category current = this;
         while(current != null) {
             if(other == current) {

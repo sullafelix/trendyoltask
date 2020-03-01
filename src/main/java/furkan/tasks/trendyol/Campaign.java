@@ -39,7 +39,7 @@ public class Campaign {
 
     public boolean isApplicable(Map<Category, Map<Product, Integer>> categoryItemMap) {
         int totalUnits = categoryItemMap.entrySet().stream()
-                            .filter(categoryItemEntry -> categoryItemEntry.getKey().isParent(this.category))
+                            .filter(categoryItemEntry -> categoryItemEntry.getKey().isParentOrSelf(this.category))
                             .mapToInt(categoryMapEntry ->
                                         categoryMapEntry.getValue().values().stream()
                                             .reduce(0, Integer::sum))
@@ -49,7 +49,7 @@ public class Campaign {
 
     private double getCampaignTotal(Map<Category, Map<Product, Integer>> categoryItemMap) {
         return categoryItemMap.entrySet().stream()
-                .filter(categoryItemEntry -> categoryItemEntry.getKey().isParent(this.category))
+                .filter(categoryItemEntry -> categoryItemEntry.getKey().isParentOrSelf(this.category))
                 .mapToDouble(categoryMapEntry ->
                         categoryMapEntry.getValue().entrySet().stream()
                                 .mapToDouble(entry -> entry.getKey().getPrice() * entry.getValue())

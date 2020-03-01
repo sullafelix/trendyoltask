@@ -1,11 +1,11 @@
 package furkan.tasks.trendyol;
 
-public class DeliveryCostCalculator {
+public class DeliveryCostCalculatorImpl {
     private final double costPerDelivery;
     private final double costPerProduct;
     private final double fixedCost;
 
-    public DeliveryCostCalculator(double costPerDelivery, double costPerProduct, double fixedCost) {
+    public DeliveryCostCalculatorImpl(double costPerDelivery, double costPerProduct, double fixedCost) {
         this.costPerDelivery = costPerDelivery;
         this.costPerProduct = costPerProduct;
         this.fixedCost = fixedCost;
