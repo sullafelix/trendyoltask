@@ -10,4 +10,14 @@ public class ProductTest {
             Product product = new Product("", 0, null);
         });
     }
+
+    @Test
+    public void testEquals() {
+        Category clothesCategory = new Category("clothes");
+
+        Product product1 = new Product("t-shirt", 20.0, clothesCategory);
+        Product product2 = new Product("t-shirt", 20.0, clothesCategory);
+
+        Assertions.assertEquals(product1, product2);
+    }
 }

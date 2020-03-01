@@ -78,4 +78,39 @@ public class ShoppingCartImplTest {
 
         Assertions.assertEquals(324.0, cart.getTotalAmountAfterDiscounts());
     }
+
+    @Test
+    public void testGetCouponDiscountNoCampaignApplicable() {
+        ShoppingCartImpl cart = new ShoppingCartImpl(null, null);
+
+        Coupon coupon = new Coupon(100, 10, DiscountType.RATE);
+        cart.applyCoupon(coupon);
+
+        Assertions.assertEquals(0, cart.getCouponDiscount());
+    }
+
+    @Test
+    public void testDeliveryCost() {
+        Category foodCategory = new Category("food");
+        Category cosmeticsCategory = new Category("cosmetics");
+        Category drinksCategory = new Category("drinks");
+
+        Product apple = new Product("Apple", 100.0, foodCategory);
+        Product almond = new Product("Almonds", 150.0, foodCategory);
+
+        Product perfume = new Product("Perfume", 200.0, cosmeticsCategory);
+        Product toothPaste = new Product("Toothpaste", 120.0, cosmeticsCategory);
+
+        Product lemonade = new Product("Lemonade", 125.50, drinksCategory);
+
+        DeliveryCostCalculator deliveryCostCalculator = new DeliveryCostCalculatorImpl(7.5, 2.5, 2.99);
+        ShoppingCartImpl cart = new ShoppingCartImpl(deliveryCostCalculator, null);
+        cart.addItem(apple, 3);
+        cart.addItem(almond, 1);
+        cart.addItem(perfume, 2);
+        cart.addItem(toothPaste, 1);
+        cart.addItem(lemonade, 4);
+
+        Assertions.assertEquals(37.99, TestUtils.convertToTwoDecimalPlaces(cart.getDeliveryCost()));
+    }
 }
