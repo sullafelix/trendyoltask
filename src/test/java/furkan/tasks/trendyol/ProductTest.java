@@ -7,7 +7,7 @@ public class ProductTest {
     @Test
     public void shouldThrowExceptionWithIllegalConstructorParams() {
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            Product product = new Product("", 0, null);
+            new Product("", 0, null);
         });
     }
 

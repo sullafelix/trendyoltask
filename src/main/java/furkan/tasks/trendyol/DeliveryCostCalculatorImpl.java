@@ -12,7 +12,7 @@ public class DeliveryCostCalculatorImpl implements DeliveryCostCalculator {
     }
 
 
-    public double calculateFor(ShoppingCartImpl cart) {
+    public double calculateFor(ShoppingCart cart) {
         return costPerDelivery * cart.getNumberOfCategories() +
                 costPerProduct * cart.getNumberOfDistinctProducts() +
                   fixedCost;
