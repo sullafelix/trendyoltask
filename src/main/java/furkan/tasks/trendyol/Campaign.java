@@ -37,33 +37,17 @@ public class Campaign {
         }
     }
 
-    public boolean isApplicable(Map<Category, Map<Product, Integer>> categoryItemMap) {
-        int totalUnits = categoryItemMap.entrySet().stream()
-                            .filter(categoryItemEntry -> categoryItemEntry.getKey().isParentOrSelf(this.category))
-                            .mapToInt(categoryMapEntry ->
-                                        categoryMapEntry.getValue().values().stream()
-                                            .reduce(0, Integer::sum))
-                            .sum();
+    public boolean isApplicable(ShoppingCartQuery shoppingCartQuery) {
+        int totalUnits = shoppingCartQuery.getNumberOfProductsByCategory(this.category);
         return totalUnits >= minUnit;
     }
 
-    private double getCampaignTotal(Map<Category, Map<Product, Integer>> categoryItemMap) {
-        return categoryItemMap.entrySet().stream()
-                .filter(categoryItemEntry -> categoryItemEntry.getKey().isParentOrSelf(this.category))
-                .mapToDouble(categoryMapEntry ->
-                        categoryMapEntry.getValue().entrySet().stream()
-                                .mapToDouble(productIntegerEntry -> productIntegerEntry.getKey().getPrice() * productIntegerEntry.getValue())
-                                .sum())
-                .sum();
+    private double getCampaignTotal(ShoppingCartQuery shoppingCartQuery) {
+        return shoppingCartQuery.getTotalPriceByCategory(this.category);
     }
 
-    public double getDiscountAmount(Map<Category, Map<Product, Integer>> categoryItemMap) {
-        if(!isApplicable(categoryItemMap)) {
-            return 0;
-        }
-
-        double totalAmountForCampaign = getCampaignTotal(categoryItemMap);
-
+    public double getDiscountAmount(ShoppingCartQuery shoppingCartQuery) {
+        double totalAmountForCampaign = getCampaignTotal(shoppingCartQuery);
         return discountType.getDiscount(number, totalAmountForCampaign);
     }
 }

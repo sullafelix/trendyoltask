@@ -2,7 +2,7 @@ package furkan.tasks.trendyol;
 
 import java.util.*;
 
-public class ShoppingCartImpl implements ShoppingCart{
+public class ShoppingCartImpl implements ShoppingCart {
     private final Map<Category, Map<Product, Integer>> categoryItemMap = new HashMap<>();
     private List<Campaign> campaigns = new LinkedList<>();
     private ShoppingCartPrinter printer;
@@ -22,10 +22,12 @@ public class ShoppingCartImpl implements ShoppingCart{
         this.deliveryCostCalculator = deliveryCostCalculator;
     }
 
+    @Override
     public double getTotalAmountAfterDiscounts() {
         return getTotalAmount() - getCampaignDiscount() - getCouponDiscount();
     }
 
+    @Override
     public double getCouponDiscount() {
         if(coupon == null) {
             return 0;
@@ -41,22 +43,26 @@ public class ShoppingCartImpl implements ShoppingCart{
                 .reduce(0.0, Double::sum);
     }
 
+    @Override
     public double getCampaignDiscount() {
         return campaigns.stream()
-                .filter(campaign -> campaign.isApplicable(this.categoryItemMap))
-                .mapToDouble(campaign -> campaign.getDiscountAmount(this.categoryItemMap))
+                .filter(campaign -> campaign.isApplicable(this))
+                .mapToDouble(campaign -> campaign.getDiscountAmount(this))
                 .max()
                 .orElse(0);
     }
 
+    @Override
     public double getDeliveryCost() {
         return deliveryCostCalculator.calculateFor(this);
     }
 
+    @Override
     public void print() {
         printer.printShoppingCart(this);
     }
 
+    @Override
     public void addItem(Product product, int number) {
         Map<Product, Integer> itemMap;
         if(categoryItemMap.containsKey(product.getCategory())) {
@@ -72,11 +78,13 @@ public class ShoppingCartImpl implements ShoppingCart{
         }
     }
 
+    @Override
     public void applyDiscounts(Campaign... campaigns) {
         this.campaigns.clear();
         this.campaigns.addAll(Arrays.asList(campaigns));
     }
 
+    @Override
     public void applyCoupon(Coupon coupon) {
         if(coupon.getMinPurchase() <= getTotalAmount() - getCampaignDiscount()) {
             this.coupon = coupon;
@@ -96,7 +104,7 @@ public class ShoppingCartImpl implements ShoppingCart{
     }
 
     @Override
-    public Optional<Map<Product, Integer>> getProductQuantityForCategory(Category category) {
+    public Optional<Map<Product, Integer>> getProductQuantityMapForCategory(Category category) {
         Map<Product, Integer> productQuantityMap = this.categoryItemMap.entrySet().stream()
                 .filter(categoryItemEntry -> categoryItemEntry.getKey().equals(category))
                 .map(Map.Entry::getValue)
@@ -111,5 +119,26 @@ public class ShoppingCartImpl implements ShoppingCart{
     @Override
     public Set<Category> getCategories() {
         return Collections.unmodifiableSet(this.categoryItemMap.keySet());
+    }
+
+    @Override
+    public int getNumberOfProductsByCategory(Category category) {
+        Optional<Map<Product, Integer>> productQuantityOfCategory = getProductQuantityMapForCategory(category);
+
+        return productQuantityOfCategory.map(
+                productIntegerMap -> productIntegerMap.values().stream()
+                        .mapToInt(i -> i)
+                        .sum()).orElse(0);
+    }
+
+    @Override
+    public double getTotalPriceByCategory(Category category) {
+        Optional<Map<Product, Integer>> productQuantityOfCategory = getProductQuantityMapForCategory(category);
+
+        return productQuantityOfCategory.map(
+                productIntegerMap -> productIntegerMap.entrySet().stream()
+                        .mapToDouble(productQuantityEntry ->
+                                productQuantityEntry.getKey().getPrice() * productQuantityEntry.getValue())
+                        .sum()).orElse(0.0);
     }
 }

@@ -3,8 +3,9 @@ package furkan.tasks.trendyol;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class ShoppingCartImplTest {
-    private static final double DOUBLE_DELTA = 0.01;
+import static furkan.tasks.trendyol.TestUtils.DOUBLE_DELTA;
+
+public class ShoppingCartTest {
 
     @Test
     public void getTotalAmountTest() {

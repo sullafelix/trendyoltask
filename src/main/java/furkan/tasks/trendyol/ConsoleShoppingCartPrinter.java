@@ -16,7 +16,7 @@ public class ConsoleShoppingCartPrinter implements ShoppingCartPrinter {
             category ->
             {
                 appendCategoryHeader(outputBuilder, category);
-                shoppingCart.getProductQuantityForCategory(category).get()
+                shoppingCart.getProductQuantityMapForCategory(category).get()
                         .forEach((product, quantity) -> appendProductLine(outputBuilder, product, quantity));
                 this.appendCategoryLineBreaks(outputBuilder);
             });

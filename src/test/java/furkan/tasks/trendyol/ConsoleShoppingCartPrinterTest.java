@@ -1,8 +1,30 @@
 package furkan.tasks.trendyol;
 
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
+
+import java.io.OutputStream;
+import java.io.PrintStream;
 
 public class ConsoleShoppingCartPrinterTest {
+    StringBuilder stringBuilder;
+    static PrintStream defaultOutputStream;
+
+    @BeforeAll
+    public static void saveDefaultPrintStream() {
+        defaultOutputStream = System.out;
+    }
+
+    @BeforeEach
+    public void setOutputStream() {
+        stringBuilder = new StringBuilder();
+        OutputStream outputStream = new OutputStream() {
+            @Override
+            public void write(int i) {
+                stringBuilder.append((char)i);
+            }
+        };
+        System.setOut(new PrintStream(outputStream));
+    }
 
     @Test
     public void testPrint() {
@@ -37,5 +59,23 @@ public class ConsoleShoppingCartPrinterTest {
         cart.applyCoupon(coupon);
 
         cart.print();
+
+        String printedString = stringBuilder.toString()
+                                            .toLowerCase();
+        defaultOutputStream.println(stringBuilder.toString());
+
+        Assertions.assertTrue(printedString.contains(apple.getTitle().toLowerCase()));
+        Assertions.assertTrue(printedString.contains(almond.getTitle().toLowerCase()));
+        Assertions.assertTrue(printedString.contains(perfume.getTitle().toLowerCase()));
+        Assertions.assertTrue(printedString.contains(toothPaste.getTitle().toLowerCase()));
+        Assertions.assertTrue(printedString.contains(lemonade.getTitle().toLowerCase()));
+        Assertions.assertTrue(printedString.contains(foodCategory.getTitle().toLowerCase()));
+        Assertions.assertTrue(printedString.contains(drinksCategory.getTitle().toLowerCase()));
+        Assertions.assertTrue(printedString.contains(cosmeticsCategory.getTitle().toLowerCase()));
+    }
+
+    @AfterAll
+    public static void restoreDefaultPrintStream() {
+        System.setOut(defaultOutputStream);
     }
 }
